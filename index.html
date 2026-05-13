@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RPG Nexus — Encontre sua Mesa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">⚔️</div>
+      <span class="logo-text">RPG Nexus</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Explorar</div>
+      <a href="#" class="nav-item active" data-page="discover">
+        <span class="nav-icon">🧭</span>
+        <span>Descobrir</span>
+      </a>
+      <a href="#" class="nav-item" data-page="sessions">
+        <span class="nav-icon">🎲</span>
+        <span>Sessões</span>
+      </a>
+      <a href="#" class="nav-item" data-page="players">
+        <span class="nav-icon">🛡️</span>
+        <span>Players</span>
+      </a>
+      <a href="#" class="nav-item" data-page="worlds">
+        <span class="nav-icon">🌍</span>
+        <span>Mundos</span>
+      </a>
+
+      <div class="nav-divider"></div>
+      <div class="nav-section-label">Suas Mesas</div>
+      <a href="#" class="nav-item" data-page="my-sessions">
+        <span class="nav-icon">📜</span>
+        <span>Minhas Sessões</span>
+        <span class="nav-badge">3</span>
+      </a>
+      <a href="#" class="nav-item" data-page="characters">
+        <span class="nav-icon">🧙</span>
+        <span>Personagens</span>
+      </a>
+      <a href="#" class="nav-item" data-page="invites">
+        <span class="nav-icon">✉️</span>
+        <span>Convites</span>
+        <span class="nav-badge new">2</span>
+      </a>
+
+     <div class="nav-divider"></div>
+      <div class="nav-section-label">Minha Conta</div>
+      <a href="#" class="nav-item" data-page="profile">
+        <span class="nav-icon">👤</span>
+        <span>Meu Perfil</span>
+      </a>
+
+      <div class="nav-divider"></div>
+      <div class="nav-section-label">Comunidade</div>
+
+    <div class="sidebar-user">
+      <div class="user-avatar" id="userAvatar">M</div>
+      <div class="user-info">
+        <div class="user-name">Mestre Alric</div>
+        <div class="user-status">
+          <span class="status-dot online"></span>
+          Online
+        </div>
+      </div>
+      <button class="user-settings" id="profileBtn" title="Meu Perfil">⚙️</button>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <div class="main-wrapper">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+      <div class="topbar-title" id="topbarTitle">
+        <span class="topbar-icon">🧭</span>
+        <span>Descobrir</span>
+      </div>
+      <div class="topbar-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar sessões, players, mundos..." id="searchInput" />
+      </div>
+      <div class="topbar-actions">
+        <button class="btn-create" id="createSessionBtn">
+          <span>+ Nova Mesa</span>
+        </button>
+        <button class="topbar-icon-btn" title="Notificações">🔔</button>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="content" id="mainContent">
+
+      <!-- DISCOVER PAGE -->
+      <section class="page active" id="page-discover">
+
+        <div class="hero-banner">
+          <div class="hero-bg-art"></div>
+          <div class="hero-text">
+            <h1>Sua aventura começa aqui</h1>
+            <p>Encontre a mesa perfeita ou convoque heróis para sua campanha</p>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong>1.240</strong>
+              <span>Sessões ativas</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+              <strong>8.500+</strong>
+              <span>Aventureiros</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat">
+              <strong>320</strong>
+              <span>Mundos criados</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="filter-bar">
+          <div class="filter-chips">
+            <button class="chip active" data-filter="all">Todos</button>
+            <button class="chip" data-filter="dnd5e">D&D 5e</button>
+            <button class="chip" data-filter="pathfinder">Pathfinder</button>
+            <button class="chip" data-filter="tormenta">Tormenta</button>
+            <button class="chip" data-filter="CoC">Call of Cthulhu</button>
+            <button class="chip" data-filter="vampire">Vampiro</button>
+            <button class="chip" data-filter="ficar">Ficar no Lar</button>
+          </div>
+          <div class="filter-right">
+            <select class="filter-select" id="filterVagas">
+              <option value="">Vagas</option>
+              <option value="1">1+ vaga</option>
+              <option value="2">2+ vagas</option>
+              <option value="3">3+ vagas</option>
+            </select>
+            <select class="filter-select" id="filterMode">
+              <option value="">Modalidade</option>
+              <option value="online">Online</option>
+              <option value="presencial">Presencial</option>
+              <option value="hibrido">Híbrido</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- SESSION CARDS -->
+        <div class="section-header">
+          <h2>🔥 Sessões em Destaque</h2>
+          <a href="#" class="see-all">Ver todas →</a>
+        </div>
+
+        <div class="cards-grid" id="sessionsGrid">
+          <!-- Cards are injected by JS -->
+        </div>
+
+        <!-- PLAYERS SECTION -->
+        <div class="section-header" style="margin-top:2.5rem">
+          <h2>🛡️ Players Buscando Mesa</h2>
+          <a href="#" class="see-all">Ver todos →</a>
+        </div>
+
+        <div class="players-row" id="playersRow">
+          <!-- Player cards injected by JS -->
+        </div>
+
+      </section>
+
+      <!-- OTHER PAGES (placeholder) -->
+      <section class="page" id="page-sessions">
+        <div class="placeholder-page">
+          <div class="placeholder-icon">🎲</div>
+          <h2>Sessões</h2>
+          <p>Todas as sessões disponíveis aparecerão aqui.</p>
+        </div>
+      </section>
+      <section class="page" id="page-players">
+        <div class="placeholder-page">
+          <div class="placeholder-icon">🛡️</div>
+          <h2>Players</h2>
+          <p>Encontre aventureiros buscando mesa.</p>
+        </div>
+      </section>
+      <section class="page" id="page-worlds">
+        <div class="placeholder-page">
+          <div class="placeholder-icon">🌍</div>
+          <h2>Mundos</h2>
+          <p>Explore cenários e ambientações criados pela comunidade.</p>
+        </div>
+      </section>
+      <section class="page" id="page-my-sessions">
+        <div class="placeholder-page">
+          <div class="placeholder-icon">📜</div>
+          <h2>Minhas Sessões</h2>
+          <p>Suas mesas ativas e histórico de campanhas.</p>
+        </div>
+      </section>
+      <section class="page" id="page-characters">
+        <div class="placeholder-page">
+          <div class="placeholder-icon">🧙</div>
+          <h2>Personagens</h2>
+          <p>Seus personagens e fichas de aventureiro.</p>
+        </div>
+      </section>
+      <section class="page" id="page-invites">
+        <div class="placeholder-page">
+          <div class="placeholder-icon">✉️</div>
+          <h2>Convites</h2>
+          <p>Convites recebidos para mesas e campanhas.</p>
+        </div>
+      </section>
+      <section class="page" id="page-guilds">
+        <div class="placeholder-page">
+          <div class="placeholder-icon">🏰</div>
+          <h2>Guildas</h2>
+          <p>Comunidades de jogadores organizadas por interesse.</p>
+        </div>
+      </section>
+      <section class="page" id="page-events">
+        <div class="placeholder-page">
+          <div class="placeholder-icon">🎉</div>
+          <h2>Eventos</h2>
+          <p>Torneios, one-shots especiais e eventos da comunidade.</p>
+        </div>
+      </section>
+      <!-- PROFILE PAGE -->
+      <section class="page" id="page-profile">
+
+        <div class="profile-banner">
+          <div class="profile-banner-bg" id="profileBannerBg"></div>
+          <div class="profile-banner-actions">
+            <label class="btn-banner-change" title="Alterar capa">
+              🖼️ Alterar Capa
+              <input type="color" id="bannerColorPicker" style="display:none" />
+            </label>
+          </div>
+          <div class="profile-avatar-area">
+            <div class="profile-avatar-ring">
+              <div class="profile-avatar-big" id="profileAvatarBig">M</div>
+            </div>
+            <label class="avatar-edit-btn" title="Trocar avatar">✏️</label>
+          </div>
+        </div>
+
+        <div class="profile-layout">
+
+          <div class="profile-left">
+            <div class="profile-name-row">
+              <h2 class="profile-username" id="profileDisplayName">Mestre Alric</h2>
+              <span class="profile-level-badge">⚔️ Nível 12</span>
+            </div>
+            <div class="profile-handle" id="profileHandle">@mestre_alric</div>
+            <p class="profile-bio" id="profileBioDisplay">Narrador veterano apaixonado por terror gótico e intriga política. Criador de mundos há mais de 8 anos.</p>
+
+            <div class="profile-tags-row" id="profileTagsDisplay">
+              <span class="profile-tag">D&D 5e</span>
+              <span class="profile-tag">Call of Cthulhu</span>
+              <span class="profile-tag">Narrador</span>
+              <span class="profile-tag">São Paulo</span>
+            </div>
+
+            <div class="profile-stats-row">
+              <div class="pstat"><strong>14</strong><span>Campanhas</span></div>
+              <div class="pstat-div"></div>
+              <div class="pstat"><strong>87</strong><span>Sessões</span></div>
+              <div class="pstat-div"></div>
+              <div class="pstat"><strong>4.9 ⭐</strong><span>Avaliação</span></div>
+            </div>
+
+            <div class="profile-card">
+              <div class="profile-card-title">🕐 Disponibilidade</div>
+              <div class="availability-grid" id="availabilityGrid"></div>
+            </div>
+
+            <div class="profile-card">
+              <div class="profile-card-title">🎲 Sistemas Favoritos</div>
+              <div class="systems-list">
+                <div class="system-item"><span class="system-dot" style="background:#c9a84c"></span>D&D 5e<span class="system-xp">Veterano</span></div>
+                <div class="system-item"><span class="system-dot" style="background:#4a90d9"></span>Call of Cthulhu<span class="system-xp">Avançado</span></div>
+                <div class="system-item"><span class="system-dot" style="background:#7b5ea7"></span>Vampiro: A Máscara<span class="system-xp">Intermediário</span></div>
+                <div class="system-item"><span class="system-dot" style="background:#2ecc71"></span>Tormenta 20<span class="system-xp">Iniciante</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-right">
+            <div class="profile-edit-card">
+              <div class="profile-edit-header">✏️ Editar Perfil</div>
+              <div class="profile-edit-body">
+
+                <div class="form-group">
+                  <label>Nome de exibição</label>
+                  <input type="text" class="form-input" id="editDisplayName" value="Mestre Alric" />
+                </div>
+
+                <div class="form-group">
+                  <label>Usuário</label>
+                  <div class="input-prefix-wrap">
+                    <span class="input-prefix">@</span>
+                    <input type="text" class="form-input prefix" id="editHandle" value="mestre_alric" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Biografia</label>
+                  <textarea class="form-input" id="editBio" rows="3">Narrador veterano apaixonado por terror gótico e intriga política. Criador de mundos há mais de 8 anos.</textarea>
+                  <span class="char-count" id="bioCount">120 / 200</span>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Cidade</label>
+                    <input type="text" class="form-input" value="São Paulo" />
+                  </div>
+                  <div class="form-group">
+                    <label>Idioma</label>
+                    <select class="form-input">
+                      <option selected>Português</option>
+                      <option>Inglês</option>
+                      <option>Espanhol</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Papel preferido</label>
+                  <div class="role-selector">
+                    <button class="role-btn active" data-role="dm">🎭 Narrador (DM)</button>
+                    <button class="role-btn" data-role="player">🧙 Jogador</button>
+                    <button class="role-btn" data-role="both">⚔️ Ambos</button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Experiência geral</label>
+                  <div class="xp-selector">
+                    <button class="xp-btn active">Veterano</button>
+                    <button class="xp-btn">Avançado</button>
+                    <button class="xp-btn">Intermediário</button>
+                    <button class="xp-btn">Iniciante</button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Status de busca</label>
+                  <div class="status-selector">
+                    <button class="status-opt active">
+                      <span class="status-opt-dot" style="background:#2ecc71"></span>Buscando mesa
+                    </button>
+                    <button class="status-opt">
+                      <span class="status-opt-dot" style="background:#f39c12"></span>Talvez
+                    </button>
+                    <button class="status-opt">
+                      <span class="status-opt-dot" style="background:#c0392b"></span>Não disponível
+                    </button>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Cor do avatar</label>
+                  <div class="avatar-color-row">
+                    <div class="avatar-color-opt active" data-colors="linear-gradient(135deg,#7b5ea7,#4a90d9)" style="background:linear-gradient(135deg,#7b5ea7,#4a90d9)"></div>
+                    <div class="avatar-color-opt" data-colors="linear-gradient(135deg,#c0392b,#8e1a10)" style="background:linear-gradient(135deg,#c0392b,#8e1a10)"></div>
+                    <div class="avatar-color-opt" data-colors="linear-gradient(135deg,#c9a84c,#8a5d00)" style="background:linear-gradient(135deg,#c9a84c,#8a5d00)"></div>
+                    <div class="avatar-color-opt" data-colors="linear-gradient(135deg,#0d8a5f,#065e3f)" style="background:linear-gradient(135deg,#0d8a5f,#065e3f)"></div>
+                    <div class="avatar-color-opt" data-colors="linear-gradient(135deg,#1a1a2e,#4a3f7f)" style="background:linear-gradient(135deg,#1a1a2e,#4a3f7f)"></div>
+                    <div class="avatar-color-opt" data-colors="linear-gradient(135deg,#c0392b,#7b5ea7)" style="background:linear-gradient(135deg,#c0392b,#7b5ea7)"></div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Tags / Interesses</label>
+                  <div class="tags-input" id="profileTagsInput">
+                    <span class="tag">D&D 5e <button class="tag-remove">✕</button></span>
+                    <span class="tag">Call of Cthulhu <button class="tag-remove">✕</button></span>
+                    <span class="tag">Narrador <button class="tag-remove">✕</button></span>
+                    <span class="tag">São Paulo <button class="tag-remove">✕</button></span>
+                    <input type="text" id="tagInputField" placeholder="Digite e pressione Enter..." />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Links sociais</label>
+                  <div class="social-inputs">
+                    <div class="social-row">
+                      <span class="social-icon">🐦</span>
+                      <input type="text" class="form-input" placeholder="Twitter / X" />
+                    </div>
+                    <div class="social-row">
+                      <span class="social-icon">📺</span>
+                      <input type="text" class="form-input" placeholder="YouTube / Twitch" />
+                    </div>
+                    <div class="social-row">
+                      <span class="social-icon">💬</span>
+                      <input type="text" class="form-input" placeholder="Discord (usuário#0000)" />
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="profile-edit-footer">
+                <button class="btn-secondary">Descartar</button>
+                <button class="btn-primary" id="saveProfileBtn">💾 Salvar Perfil</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- CREATE SESSION MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="createModal">
+      <div class="modal-header">
+        <h3>⚔️ Criar Nova Mesa</h3>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Nome da Campanha</label>
+          <input type="text" placeholder="Ex: A Maldição de Strahd" class="form-input" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Sistema</label>
+            <select class="form-input">
+              <option>D&D 5e</option>
+              <option>Pathfinder 2e</option>
+              <option>Tormenta 20</option>
+              <option>Call of Cthulhu</option>
+              <option>Vampiro: A Máscara</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Vagas</label>
+            <select class="form-input">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Modalidade</label>
+            <select class="form-input">
+              <option>Online</option>
+              <option>Presencial</option>
+              <option>Híbrido</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Frequência</label>
+            <select class="form-input">
+              <option>Semanal</option>
+              <option>Quinzenal</option>
+              <option>Mensal</option>
+              <option>One-shot</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Descrição</label>
+          <textarea class="form-input" rows="3" placeholder="Descreva sua campanha, o que espera dos jogadores, ambientação..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Tags</label>
+          <div class="tags-input">
+            <span class="tag">Terror <button>✕</button></span>
+            <span class="tag">Exploração <button>✕</button></span>
+            <input type="text" placeholder="Adicionar tag..." />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="cancelBtn">Cancelar</button>
+        <button class="btn-primary">⚔️ Publicar Mesa</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
