@@ -28,38 +28,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const btnGuest = document.getElementById('btnGuest');
 
+  // Usuários em memória (sem localStorage)
+  const USERS_DB = [
+    { email: 'teste@email.com', password: '12345678', name: 'Mestre Alric' }
+  ];
+
   function getUsers() {
-    try {
-      return JSON.parse(localStorage.getItem('rpgNexusUsers')) || [];
-    } catch {
-      return [];
-    }
+    return USERS_DB;
   }
 
   function saveUsers(users) {
-    localStorage.setItem('rpgNexusUsers', JSON.stringify(users));
+    // sem persistência no GitHub Pages — apenas memória
   }
 
   function getCurrentUser() {
-    try {
-      return (
-        JSON.parse(localStorage.getItem('rpgNexusCurrentUser')) ||
-        JSON.parse(sessionStorage.getItem('rpgNexusCurrentUser'))
-      );
-    } catch {
-      return null;
-    }
+    return null; // sempre começa deslogado
   }
 
   function setCurrentUser(user, keepLogged = true) {
-    sessionStorage.removeItem('rpgNexusCurrentUser');
-    localStorage.removeItem('rpgNexusCurrentUser');
-
-    if (keepLogged) {
-      localStorage.setItem('rpgNexusCurrentUser', JSON.stringify(user));
-    } else {
-      sessionStorage.setItem('rpgNexusCurrentUser', JSON.stringify(user));
-    }
+    // sem persistência
   }
 
   function generateHandle(name, email) {
@@ -100,15 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function enterApp(user, keepLogged = true) {
-  setCurrentUser(user, keepLogged);
-  updateUserInterface(user);
-
-  if (authOverlay) {
-    authOverlay.classList.add('hidden');
+    updateUserInterface(user);
+    if (authOverlay) {
+      authOverlay.classList.add('hidden');
+    }
+    document.body.classList.add('is-authenticated');
   }
-
-  document.body.classList.add('is-authenticated');
-}
 
   
   function showAuthTab(type) {
@@ -698,6 +682,11 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => toast.remove(), 2800);
   });
   // ---- INIT ----
+  // Sempre mostra a tela de login ao abrir
+  if (authOverlay) {
+    authOverlay.classList.remove('hidden');
+  }
+
   renderSessions(SESSIONS);
   renderPlayers();
 
