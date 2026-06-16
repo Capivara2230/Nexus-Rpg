@@ -9,7 +9,100 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <div class="auth-overlay" id="authOverlay">
+<!-- AUTH SCREEN -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-container">
 
+    <!-- LOGO -->
+    <div class="auth-logo">
+      <span class="auth-logo-icon">⚔️</span>
+      <span class="auth-logo-text">RPG Nexus</span>
+    </div>
+    <p class="auth-tagline">Encontre sua mesa. Comece sua aventura.</p>
+
+    <!-- TABS -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-auth="login">Entrar</button>
+      <button class="auth-tab" data-auth="register">Criar Conta</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div class="auth-form active" id="authLogin">
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" class="form-input" id="loginEmail" placeholder="seu@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <div class="pass-wrap">
+          <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" />
+          <button class="pass-toggle" data-target="loginPassword">👁️</button>
+        </div>
+      </div>
+      <div class="auth-options">
+        <label class="auth-remember">
+          <input type="checkbox" id="rememberMe" />
+          <span>Lembrar de mim</span>
+        </label>
+        <a href="#" class="auth-link">Esqueci a senha</a>
+      </div>
+      <button class="btn-auth" id="btnLogin">⚔️ Entrar</button>
+      <div class="auth-error" id="loginError"></div>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div class="auth-form" id="authRegister">
+      <div class="form-group">
+        <label>Nome de aventureiro</label>
+        <input type="text" class="form-input" id="regName" placeholder="Ex: Mestre Alric" />
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" class="form-input" id="regEmail" placeholder="seu@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <div class="pass-wrap">
+          <input type="password" class="form-input" id="regPassword" placeholder="Mínimo 8 caracteres" />
+          <button class="pass-toggle" data-target="regPassword">👁️</button>
+        </div>
+        <div class="password-strength">
+          <div class="strength-bar"><div class="strength-fill" id="regStrengthFill"></div></div>
+          <span class="strength-label" id="regStrengthLabel">—</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Confirmar senha</label>
+        <div class="pass-wrap">
+          <input type="password" class="form-input" id="regConfirm" placeholder="Repita a senha" />
+          <button class="pass-toggle" data-target="regConfirm">👁️</button>
+        </div>
+      </div>
+      <label class="auth-terms">
+        <input type="checkbox" id="acceptTerms" />
+        <span>Concordo com os <a href="#" class="auth-link">Termos de Uso</a></span>
+      </label>
+      <button class="btn-auth" id="btnRegister">🧙 Criar minha conta</button>
+      <div class="auth-error" id="registerError"></div>
+    </div>
+
+    <!-- DIVIDER -->
+    <div class="auth-divider"><span>ou</span></div>
+
+    <!-- GUEST -->
+    <button class="btn-auth-guest" id="btnGuest">🎲 Entrar sem login</button>
+    <p class="auth-guest-info">Você poderá explorar o site, mas não poderá criar ou entrar em mesas.</p>
+
+  </div>
+
+  <!-- BG DECORATION -->
+  <div class="auth-bg">
+    <div class="auth-bg-orb orb1"></div>
+    <div class="auth-bg-orb orb2"></div>
+    <div class="auth-bg-orb orb3"></div>
+  </div>
+</div>
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">

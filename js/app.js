@@ -3,6 +3,307 @@
 // ========================
 
 document.addEventListener('DOMContentLoaded', () => {
+  
+  // ---- AUTH / LOGIN / CADASTRO ----
+  const authOverlay = document.getElementById('authOverlay');
+  const authTabs = document.querySelectorAll('.auth-tab');
+  const authLogin = document.getElementById('authLogin');
+  const authRegister = document.getElementById('authRegister');
+
+  const loginEmail = document.getElementById('loginEmail');
+  const loginPassword = document.getElementById('loginPassword');
+  const rememberMe = document.getElementById('rememberMe');
+  const btnLogin = document.getElementById('btnLogin');
+  const loginError = document.getElementById('loginError');
+
+  const regName = document.getElementById('regName');
+  const regEmail = document.getElementById('regEmail');
+  const regPassword = document.getElementById('regPassword');
+  const regConfirm = document.getElementById('regConfirm');
+  const acceptTerms = document.getElementById('acceptTerms');
+  const btnRegister = document.getElementById('btnRegister');
+  const registerError = document.getElementById('registerError');
+  const regStrengthFill = document.getElementById('regStrengthFill');
+  const regStrengthLabel = document.getElementById('regStrengthLabel');
+
+  const btnGuest = document.getElementById('btnGuest');
+
+  function getUsers() {
+    try {
+      return JSON.parse(localStorage.getItem('rpgNexusUsers')) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveUsers(users) {
+    localStorage.setItem('rpgNexusUsers', JSON.stringify(users));
+  }
+
+  function getCurrentUser() {
+    try {
+      return (
+        JSON.parse(localStorage.getItem('rpgNexusCurrentUser')) ||
+        JSON.parse(sessionStorage.getItem('rpgNexusCurrentUser'))
+      );
+    } catch {
+      return null;
+    }
+  }
+
+  function setCurrentUser(user, keepLogged = true) {
+    sessionStorage.removeItem('rpgNexusCurrentUser');
+    localStorage.removeItem('rpgNexusCurrentUser');
+
+    if (keepLogged) {
+      localStorage.setItem('rpgNexusCurrentUser', JSON.stringify(user));
+    } else {
+      sessionStorage.setItem('rpgNexusCurrentUser', JSON.stringify(user));
+    }
+  }
+
+  function generateHandle(name, email) {
+    const base = name || email.split('@')[0] || 'aventureiro';
+
+    return '@' + base
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '');
+  }
+
+  function updateUserInterface(user) {
+    if (!user) return;
+
+    const displayName = user.name || 'Visitante';
+    const initial = displayName.charAt(0).toUpperCase();
+    const handle = user.handle || generateHandle(displayName, user.email || 'visitante@email.com');
+
+    const sidebarName = document.querySelector('.user-name');
+    const sidebarAvatar = document.getElementById('userAvatar');
+    const profileName = document.getElementById('profileDisplayName');
+    const profileHandle = document.getElementById('profileHandle');
+    const profileAvatar = document.getElementById('profileAvatarBig');
+    const editName = document.getElementById('editDisplayName');
+    const editHandle = document.getElementById('editHandle');
+
+    if (sidebarName) sidebarName.textContent = displayName;
+    if (sidebarAvatar) sidebarAvatar.textContent = initial;
+
+    if (profileName) profileName.textContent = displayName;
+    if (profileHandle) profileHandle.textContent = handle;
+    if (profileAvatar) profileAvatar.textContent = initial;
+
+    if (editName) editName.value = displayName;
+    if (editHandle) editHandle.value = handle.replace('@', '');
+  }
+
+  function enterApp(user, keepLogged = true) {
+    setCurrentUser(user, keepLogged);
+    updateUserInterface(user);
+
+    if (authOverlay) {
+      authOverlay.classList.add('hidden');
+    }
+  }
+
+  function showAuthTab(type) {
+    authTabs.forEach(tab => {
+      tab.classList.toggle('active', tab.dataset.auth === type);
+    });
+
+    if (authLogin) {
+      authLogin.classList.toggle('active', type === 'login');
+    }
+
+    if (authRegister) {
+      authRegister.classList.toggle('active', type === 'register');
+    }
+
+    if (loginError) {
+      loginError.textContent = '';
+      loginError.classList.remove('success');
+    }
+
+    if (registerError) {
+      registerError.textContent = '';
+      registerError.classList.remove('success');
+    }
+  }
+
+  function showAuthMessage(element, message, type = 'error') {
+    if (!element) return;
+
+    element.textContent = message;
+    element.classList.toggle('success', type === 'success');
+  }
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function checkPasswordStrength(password) {
+    let score = 0;
+
+    if (password.length >= 8) score++;
+    if (/[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^A-Za-z0-9]/.test(password)) score++;
+
+    if (score <= 1) {
+      return { label: 'Fraca', width: '25%', color: 'var(--accent-red)' };
+    }
+
+    if (score === 2 || score === 3) {
+      return { label: 'Média', width: '65%', color: 'var(--accent-gold)' };
+    }
+
+    return { label: 'Forte', width: '100%', color: 'var(--accent-green)' };
+  }
+
+  authTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      showAuthTab(tab.dataset.auth);
+    });
+  });
+
+  document.querySelectorAll('.pass-toggle').forEach(button => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      const targetId = button.dataset.target;
+      const input = document.getElementById(targetId);
+
+      if (!input) return;
+
+      input.type = input.type === 'password' ? 'text' : 'password';
+      button.textContent = input.type === 'password' ? '👁️' : '🙈';
+    });
+  });
+
+  regPassword?.addEventListener('input', () => {
+    const password = regPassword.value;
+    const strength = checkPasswordStrength(password);
+
+    if (regStrengthFill) {
+      regStrengthFill.style.width = password ? strength.width : '0%';
+      regStrengthFill.style.background = strength.color;
+    }
+
+    if (regStrengthLabel) {
+      regStrengthLabel.textContent = password ? strength.label : '—';
+      regStrengthLabel.style.color = password ? strength.color : 'var(--text-muted)';
+    }
+  });
+
+  btnRegister?.addEventListener('click', () => {
+    const name = regName.value.trim();
+    const email = regEmail.value.trim().toLowerCase();
+    const password = regPassword.value;
+    const confirm = regConfirm.value;
+
+    if (!name) {
+      showAuthMessage(registerError, 'Digite seu nome de aventureiro.');
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      showAuthMessage(registerError, 'Digite um e-mail válido.');
+      return;
+    }
+
+    if (password.length < 8) {
+      showAuthMessage(registerError, 'A senha precisa ter pelo menos 8 caracteres.');
+      return;
+    }
+
+    if (password !== confirm) {
+      showAuthMessage(registerError, 'As senhas não são iguais.');
+      return;
+    }
+
+    if (!acceptTerms.checked) {
+      showAuthMessage(registerError, 'Você precisa aceitar os Termos de Uso.');
+      return;
+    }
+
+    const users = getUsers();
+    const alreadyExists = users.some(user => user.email === email);
+
+    if (alreadyExists) {
+      showAuthMessage(registerError, 'Já existe uma conta com esse e-mail.');
+      return;
+    }
+
+    const newUser = {
+      id: Date.now(),
+      name,
+      email,
+      password,
+      handle: generateHandle(name, email),
+      createdAt: new Date().toISOString()
+    };
+
+    users.push(newUser);
+    saveUsers(users);
+
+    showAuthMessage(registerError, 'Conta criada com sucesso! Entrando...', 'success');
+
+    setTimeout(() => {
+      enterApp(newUser, true);
+    }, 700);
+  });
+
+  btnLogin?.addEventListener('click', () => {
+    const email = loginEmail.value.trim().toLowerCase();
+    const password = loginPassword.value;
+
+    if (!isValidEmail(email)) {
+      showAuthMessage(loginError, 'Digite um e-mail válido.');
+      return;
+    }
+
+    if (!password) {
+      showAuthMessage(loginError, 'Digite sua senha.');
+      return;
+    }
+
+    const users = getUsers();
+    const user = users.find(item => item.email === email && item.password === password);
+
+    if (!user) {
+      showAuthMessage(loginError, 'E-mail ou senha incorretos.');
+      return;
+    }
+
+    showAuthMessage(loginError, 'Login realizado com sucesso!', 'success');
+
+    setTimeout(() => {
+      enterApp(user, rememberMe.checked);
+    }, 500);
+  });
+
+  btnGuest?.addEventListener('click', () => {
+    const guestUser = {
+      id: 'guest',
+      name: 'Visitante',
+      email: 'visitante@rpgnexus.local',
+      handle: '@visitante',
+      guest: true
+    };
+
+    enterApp(guestUser, false);
+  });
+
+  const savedUser = getCurrentUser();
+
+  if (savedUser) {
+    enterApp(savedUser, true);
+  } else if (authOverlay) {
+    authOverlay.classList.remove('hidden');
+  }
+
 
   // ---- NAVIGATION ----
   const navItems = document.querySelectorAll('.nav-item');
@@ -397,3 +698,5 @@ document.addEventListener('DOMContentLoaded', () => {
   renderPlayers();
 
 });
+
+
