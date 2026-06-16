@@ -100,37 +100,41 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function enterApp(user, keepLogged = true) {
-    setCurrentUser(user, keepLogged);
-    updateUserInterface(user);
+  setCurrentUser(user, keepLogged);
+  updateUserInterface(user);
 
-    if (authOverlay) {
-      authOverlay.classList.add('hidden');
-    }
+  if (authOverlay) {
+    authOverlay.classList.add('hidden');
   }
 
+  document.body.classList.add('is-authenticated');
+}
+
+  
   function showAuthTab(type) {
-    authTabs.forEach(tab => {
-      tab.classList.toggle('active', tab.dataset.auth === type);
-    });
+  authTabs.forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.auth === type);
+  });
 
-    if (authLogin) {
-      authLogin.classList.toggle('active', type === 'login');
-    }
-
-    if (authRegister) {
-      authRegister.classList.toggle('active', type === 'register');
-    }
-
-    if (loginError) {
-      loginError.textContent = '';
-      loginError.classList.remove('success');
-    }
-
-    if (registerError) {
-      registerError.textContent = '';
-      registerError.classList.remove('success');
-    }
+  if (authLogin) {
+    authLogin.classList.toggle('active', type === 'login');
   }
+
+  if (authRegister) {
+    authRegister.classList.toggle('active', type === 'register');
+  }
+
+  if (loginError) {
+    loginError.textContent = '';
+    loginError.classList.remove('success');
+  }
+
+  if (registerError) {
+    registerError.textContent = '';
+    registerError.classList.remove('success');
+  }
+}
+
 
   function showAuthMessage(element, message, type = 'error') {
     if (!element) return;
