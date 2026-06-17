@@ -235,8 +235,10 @@
         <div class="profile-avatar-area">
           <div class="profile-avatar-ring">
             <div class="profile-avatar-big" id="profileAvatarBig">M</div>
+            <img class="profile-avatar-img" id="profileAvatarImg" style="display:none" />
           </div>
-          <label class="avatar-edit-btn">✏️</label>
+          <label class="avatar-edit-btn" for="avatarUploadInput" title="Trocar foto">✏️</label>
+          <input type="file" id="avatarUploadInput" accept="image/*" style="display:none" />
         </div>
       </div>
       <div class="profile-layout">
@@ -278,6 +280,36 @@
           <div class="profile-edit-card">
             <div class="profile-edit-header">✏️ Editar Perfil</div>
             <div class="profile-edit-body">
+              <div class="form-group">
+                <label>Foto de perfil</label>
+                <div class="avatar-upload-row">
+                  <div class="avatar-upload-preview" id="avatarUploadPreview">
+                    <div class="profile-avatar-big small" id="avatarPreviewLetter">M</div>
+                    <img id="avatarPreviewImg" style="display:none" />
+                  </div>
+                  <div class="avatar-upload-actions">
+                    <label for="avatarUploadInput2" class="btn-secondary sml">📁 Escolher foto</label>
+                    <button class="btn-secondary sml" id="removeAvatarBtn" style="display:none">🗑️ Remover</button>
+                    <input type="file" id="avatarUploadInput2" accept="image/*" style="display:none" />
+                  </div>
+                </div>
+                <span class="char-count">JPG, PNG ou GIF — máximo 5MB</span>
+              </div>
+              <div class="form-group">
+                <label>Foto de perfil</label>
+                <div class="avatar-upload-row">
+                  <div class="avatar-upload-preview" id="avatarUploadPreview">
+                    <div class="profile-avatar-big small" id="avatarPreviewLetter">M</div>
+                    <img id="avatarPreviewImg" style="display:none" />
+                  </div>
+                  <div class="avatar-upload-actions">
+                    <label for="avatarUploadInput2" class="btn-secondary sml">📁 Escolher foto</label>
+                    <button class="btn-secondary sml" id="removeAvatarBtn" style="display:none">🗑️ Remover</button>
+                    <input type="file" id="avatarUploadInput2" accept="image/*" style="display:none" />
+                  </div>
+                </div>
+                <span class="char-count">JPG, PNG ou GIF — máximo 5MB</span>
+              </div>
               <div class="form-group">
                 <label>Nome de exibição</label>
                 <input type="text" class="form-input" id="editDisplayName" value="Mestre Alric" />
