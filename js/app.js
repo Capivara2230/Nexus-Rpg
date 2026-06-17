@@ -599,6 +599,86 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ---- AVATAR UPLOAD ----
+  function handleAvatarFile(file) {
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Por favor selecione um arquivo de imagem (JPG, PNG ou GIF).');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert('A imagem precisa ter no máximo 5MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+
+      // Avatar grande no banner do perfil
+      const bigImg = document.getElementById('profileAvatarImg');
+      const bigLetter = document.getElementById('profileAvatarBig');
+      if (bigImg && bigLetter) {
+        bigImg.src = dataUrl;
+        bigImg.style.display = 'block';
+        bigLetter.style.opacity = '0';
+      }
+
+      // Avatar da sidebar
+      const sidebarAvatar = document.getElementById('userAvatar');
+      if (sidebarAvatar) {
+        sidebarAvatar.style.backgroundImage = `url(${dataUrl})`;
+        sidebarAvatar.style.backgroundSize = 'cover';
+        sidebarAvatar.style.backgroundPosition = 'center';
+        sidebarAvatar.textContent = '';
+      }
+
+      // Preview no formulário de edição
+      const previewImg = document.getElementById('avatarPreviewImg');
+      const previewLetter = document.getElementById('avatarPreviewLetter');
+      if (previewImg && previewLetter) {
+        previewImg.src = dataUrl;
+        previewImg.style.display = 'block';
+        previewLetter.style.opacity = '0';
+      }
+
+      const removeBtn = document.getElementById('removeAvatarBtn');
+      if (removeBtn) removeBtn.style.display = 'inline-block';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  document.getElementById('avatarUploadInput')?.addEventListener('change', (e) => {
+    handleAvatarFile(e.target.files[0]);
+  });
+
+  document.getElementById('avatarUploadInput2')?.addEventListener('change', (e) => {
+    handleAvatarFile(e.target.files[0]);
+  });
+
+  document.getElementById('removeAvatarBtn')?.addEventListener('click', () => {
+    const bigImg = document.getElementById('profileAvatarImg');
+    const bigLetter = document.getElementById('profileAvatarBig');
+    const sidebarAvatar = document.getElementById('userAvatar');
+    const previewImg = document.getElementById('avatarPreviewImg');
+    const previewLetter = document.getElementById('avatarPreviewLetter');
+    const removeBtn = document.getElementById('removeAvatarBtn');
+
+    if (bigImg) { bigImg.style.display = 'none'; bigImg.src = ''; }
+    if (bigLetter) bigLetter.style.opacity = '1';
+    if (sidebarAvatar) {
+      sidebarAvatar.style.backgroundImage = 'none';
+      sidebarAvatar.textContent = (document.getElementById('editDisplayName')?.value || 'M').charAt(0).toUpperCase();
+    }
+    if (previewImg) { previewImg.style.display = 'none'; previewImg.src = ''; }
+    if (previewLetter) previewLetter.style.opacity = '1';
+    if (removeBtn) removeBtn.style.display = 'none';
+
+    document.getElementById('avatarUploadInput').value = '';
+    document.getElementById('avatarUploadInput2').value = '';
+  });
   document.getElementById('bannerColorPicker')?.addEventListener('input', e => {
     const c = e.target.value;
     const bg = document.getElementById('profileBannerBg');
